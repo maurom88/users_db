@@ -37,31 +37,38 @@ module.exports = {
                     title: "Welcome to ELiTe | Add a new teacher"
                 });
             } else {
-                // Check if password matches
-
-                // check the filetype before uploading it
-                if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
-                    // upload the file to the /public/assets/img directory
-                    uploadedFile.mv(`public/assets/img/${image_name}`, (err) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        // send the teacher's details to the database
-                        let query = "INSERT INTO `teachers` (first_name, last_name, image, user_name, email, password) VALUES ('" +
-                            first_name + "', '" + last_name + "', '" + image_name + "', '" + username + "', '" + email + "', '" + password_1 + "')";
-                        db.query(query, (err, result) => {
+                // Check if passwords match
+                if (password_1 !== password_2) {
+                    message = "Passwords don't match. Try again.";
+                    res.render('add-teacher.ejs', {
+                        message,
+                        title: "Welcome to ELiTe | Add a new teacher",
+                    });
+                } else {
+                    // check the filetype before uploading it
+                    if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
+                        // upload the file to the /public/assets/img directory
+                        uploadedFile.mv(`public/assets/img/${image_name}`, (err) => {
                             if (err) {
                                 return res.status(500).send(err);
                             }
-                            res.redirect('/');
+                            // send the teacher's details to the database
+                            let query = "INSERT INTO `teachers` (first_name, last_name, image, user_name, email, password) VALUES ('" +
+                                first_name + "', '" + last_name + "', '" + image_name + "', '" + username + "', '" + email + "', '" + password_1 + "')";
+                            db.query(query, (err, result) => {
+                                if (err) {
+                                    return res.status(500).send(err);
+                                }
+                                res.redirect('/');
+                            });
                         });
-                    });
-                } else {
-                    message = "Invalid File format. Only 'gif', 'jpeg' and 'png' images are allowed.";
-                    res.render('add-teacher.ejs', {
-                        message,
-                        title: "Welcome to ELiTe | Add a new teacher"
-                    });
+                    } else {
+                        message = "Invalid File format. Only 'gif', 'jpeg' and 'png' images are allowed.";
+                        res.render('add-teacher.ejs', {
+                            message,
+                            title: "Welcome to ELiTe | Add a new teacher"
+                        });
+                    }
                 }
             }
         });
