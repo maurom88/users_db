@@ -130,5 +130,31 @@ module.exports = {
                 });
             });
         });
+    },
+    loginTeacherPage: (req, res) => {
+        res.render('login-teacher.ejs', {
+            title: "Welcome to ELiTe | Teacher login",
+            message: ''
+        });
+    },
+
+    loginTeacher: (req, res) => {
+        let username = req.body.username;
+        let password = req.body.password;
+
+        let query = "SELECT user_name, password FROM `teachers` WHERE user_name = '" + username + "'";
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            } else {
+                if (password == result[0].password) {
+                    console.log("logged in!");
+                } else {
+                    console.log("wrong password");
+                }
+                res.redirect('/');
+            }
+        });
     }
 };

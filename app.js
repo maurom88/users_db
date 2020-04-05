@@ -5,13 +5,13 @@ const mysql = require('mysql');
 const path = require('path');
 const app = express();
 
-const {getHomePage} = require('./routes/index');
-const {addTeacherPage, addTeacher, deleteTeacher, editTeacher, editTeacherPage} = require('./routes/teacher');
+const { getHomePage } = require('./routes/index');
+const { addTeacherPage, addTeacher, deleteTeacher, editTeacher, editTeacherPage, loginTeacherPage, loginTeacher } = require('./routes/teacher');
 const port = 5000;
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection ({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'nodeclient',
     password: '123456',
@@ -42,8 +42,10 @@ app.get('/', getHomePage);
 app.get('/add', addTeacherPage);
 app.get('/edit/:id', editTeacherPage);
 app.get('/delete/:id', deleteTeacher);
+app.get('/login', loginTeacherPage);
 app.post('/add', addTeacher);
 app.post('/edit/:id', editTeacher);
+app.post('/login', loginTeacher);
 
 
 // set the app to listen on the port
