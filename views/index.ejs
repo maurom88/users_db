@@ -9,6 +9,7 @@
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Username</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -20,6 +21,7 @@
                             <td><%= teacher.first_name %></td>
                             <td><%= teacher.last_name %></td>
                             <td>@<%= teacher.user_name %></td>
+                            <td>@<%= teacher.email %></td>
                             <td>
                                 <a href="/edit/<%= teacher.id %>" target="_self" rel="noopener" class="btn btn-sm btn-success">Edit</a>
                                 <a href="/delete/<%= teacher.id %>" class="btn btn-sm btn-danger">Delete</a>

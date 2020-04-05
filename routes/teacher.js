@@ -16,7 +16,8 @@ module.exports = {
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
         let username = req.body.username;
-        let password = req.body.password;
+        let password_1 = req.body.password_1;
+        let password_2 = req.body.password_2;
         let uploadedFile = req.files.image;
         let image_name = uploadedFile.name;
         let fileExtension = uploadedFile.mimetype.split('/')[1];
@@ -35,6 +36,8 @@ module.exports = {
                     title: "Welcome to ELiTe | Add a new teacher"
                 });
             } else {
+                // Check if password matches
+
                 // check the filetype before uploading it
                 if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
                     // upload the file to the /public/assets/img directory
