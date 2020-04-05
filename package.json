@@ -4,6 +4,7 @@
   "description": "NodeJS-ExpressJS-MYSQL Example",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,5 +28,6 @@
   },
   "directories": {
     "example": "examples"
-  }
+  },
+  "keywords": []
 }
