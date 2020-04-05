@@ -148,11 +148,17 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             } else {
-                if (password == result[0].password) {
-                    console.log("logged in!");
-                } else {
-                    console.log("wrong password");
-                }
+                bcrypt.compare(password, result[0].password, function (err, result) {
+                    if (err) {
+                        return res.status(500).send(err);
+                    } else {
+                        if (result === false) {
+                            console.log("wrong password");
+                        } else {
+                            console.log("logged in!");
+                        }
+                    }
+                })
                 res.redirect('/');
             }
         });
