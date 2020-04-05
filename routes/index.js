@@ -8,7 +8,7 @@ module.exports = {
                 res.redirect('/');
             }
             res.render('index.ejs', {
-                title: "Welcome to Socka | View teachers"
+                title: "Welcome to ELiTe | View teachers"
                 ,teachers: result
             });
         });

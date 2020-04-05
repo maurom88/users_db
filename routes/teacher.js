@@ -1,13 +1,13 @@
 const fs = require('fs');
 
 module.exports = {
-    addPlayerPage: (req, res) => {
-        res.render('add-player.ejs', {
-            title: "Welcome to Socka | Add a new player"
-            ,message: ''
+    addTeacherPage: (req, res) => {
+        res.render('add-teacher.ejs', {
+            title: "Welcome to ELiTe | Add a new teacher",
+            message: ''
         });
     },
-    addPlayer: (req, res) => {
+    addTeacher: (req, res) => {
         if (!req.files) {
             return res.status(400).send("No files were uploaded.");
         }
@@ -15,15 +15,14 @@ module.exports = {
         let message = '';
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
-        let position = req.body.position;
-        let number = req.body.number;
         let username = req.body.username;
+        let password = req.body.password;
         let uploadedFile = req.files.image;
         let image_name = uploadedFile.name;
         let fileExtension = uploadedFile.mimetype.split('/')[1];
         image_name = username + '.' + fileExtension;
 
-        let usernameQuery = "SELECT * FROM `players` WHERE user_name = '" + username + "'";
+        let usernameQuery = "SELECT * FROM `teachers` WHERE user_name = '" + username + "'";
 
         db.query(usernameQuery, (err, result) => {
             if (err) {
@@ -31,21 +30,21 @@ module.exports = {
             }
             if (result.length > 0) {
                 message = 'Username already exists';
-                res.render('add-player.ejs', {
+                res.render('add-teacher.ejs', {
                     message,
-                    title: "Welcome to Socka | Add a new player"
+                    title: "Welcome to ELiTe | Add a new teacher"
                 });
             } else {
                 // check the filetype before uploading it
                 if (uploadedFile.mimetype === 'image/png' || uploadedFile.mimetype === 'image/jpeg' || uploadedFile.mimetype === 'image/gif') {
                     // upload the file to the /public/assets/img directory
-                    uploadedFile.mv(`public/assets/img/${image_name}`, (err ) => {
+                    uploadedFile.mv(`public/assets/img/${image_name}`, (err) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
-                        // send the player's details to the database
-                        let query = "INSERT INTO `players` (first_name, last_name, position, number, image, user_name) VALUES ('" +
-                            first_name + "', '" + last_name + "', '" + position + "', '" + number + "', '" + image_name + "', '" + username + "')";
+                        // send the teacher's details to the database
+                        let query = "INSERT INTO `teachers` (first_name, last_name, image, user_name, password) VALUES ('" +
+                            first_name + "', '" + last_name + "', '" + image_name + "', '" + username + "', '" + password + "')";
                         db.query(query, (err, result) => {
                             if (err) {
                                 return res.status(500).send(err);
@@ -55,36 +54,35 @@ module.exports = {
                     });
                 } else {
                     message = "Invalid File format. Only 'gif', 'jpeg' and 'png' images are allowed.";
-                    res.render('add-player.ejs', {
+                    res.render('add-teacher.ejs', {
                         message,
-                        title: "Welcome to Socka | Add a new player"
+                        title: "Welcome to ELiTe | Add a new teacher"
                     });
                 }
             }
         });
     },
-    editPlayerPage: (req, res) => {
-        let playerId = req.params.id;
-        let query = "SELECT * FROM `players` WHERE id = '" + playerId + "' ";
+    editTeacherPage: (req, res) => {
+        let teacherId = req.params.id;
+        let query = "SELECT * FROM `teachers` WHERE id = '" + teacherId + "' ";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render('edit-player.ejs', {
-                title: "Edit  Player"
-                ,player: result[0]
-                ,message: ''
+            res.render('edit-teacher.ejs', {
+                title: "Edit  Teacher"
+                , teacher: result[0]
+                , message: ''
             });
         });
     },
-    editPlayer: (req, res) => {
-        let playerId = req.params.id;
+    editTeacher: (req, res) => {
+        let teacherId = req.params.id;
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
-        let position = req.body.position;
-        let number = req.body.number;
+        let password = req.body.password;
 
-        let query = "UPDATE `players` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `position` = '" + position + "', `number` = '" + number + "' WHERE `players`.`id` = '" + playerId + "'";
+        let query = "UPDATE `teachers` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `password` = '" + password + "' WHERE `teachers`.`id` = '" + teacherId + "'";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
@@ -92,10 +90,10 @@ module.exports = {
             res.redirect('/');
         });
     },
-    deletePlayer: (req, res) => {
-        let playerId = req.params.id;
-        let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-        let deleteUserQuery = 'DELETE FROM players WHERE id = "' + playerId + '"';
+    deleteTeacher: (req, res) => {
+        let teacherId = req.params.id;
+        let getImageQuery = 'SELECT image from `teachers` WHERE id = "' + teacherId + '"';
+        let deleteUserQuery = 'DELETE FROM teachers WHERE id = "' + teacherId + '"';
 
         db.query(getImageQuery, (err, result) => {
             if (err) {

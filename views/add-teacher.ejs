@@ -1,0 +1,36 @@
+<%- include ('./partials/header.ejs') %>
+<div class="container">
+    <% if (message != '') { %>
+    <p class="text-center text-danger"><%= message %></p>
+    <% } %>
+    <form class="add-teacher-form" action="" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" name="first_name" id="first-name" placeholder="First Name"
+                    required>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" name="last_name" id="last-name" placeholder="Last Name"
+                    required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                    required>
+            </div>
+            <div class="col-md-12">
+                <label for="teacher-img"><b>Teacher Image</b></label><br>
+                <input type="file" name="image" id="teacher-img" class="" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary float-right">Add Teacher</button>
+    </form>
+</div>
+</div>
+</body>
+
+</html>
