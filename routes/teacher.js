@@ -16,6 +16,7 @@ module.exports = {
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
         let username = req.body.username;
+        let email = req.body.email;
         let password_1 = req.body.password_1;
         let password_2 = req.body.password_2;
         let uploadedFile = req.files.image;
@@ -46,8 +47,8 @@ module.exports = {
                             return res.status(500).send(err);
                         }
                         // send the teacher's details to the database
-                        let query = "INSERT INTO `teachers` (first_name, last_name, image, user_name, password) VALUES ('" +
-                            first_name + "', '" + last_name + "', '" + image_name + "', '" + username + "', '" + password + "')";
+                        let query = "INSERT INTO `teachers` (first_name, last_name, image, user_name, email, password) VALUES ('" +
+                            first_name + "', '" + last_name + "', '" + image_name + "', '" + username + "', '" + email + "', '" + password_1 + "')";
                         db.query(query, (err, result) => {
                             if (err) {
                                 return res.status(500).send(err);
@@ -83,9 +84,10 @@ module.exports = {
         let teacherId = req.params.id;
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
+        let email = req.body.email;
         let password = req.body.password;
 
-        let query = "UPDATE `teachers` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `password` = '" + password + "' WHERE `teachers`.`id` = '" + teacherId + "'";
+        let query = "UPDATE `teachers` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "' WHERE `teachers`.`id` = '" + teacherId + "'";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
